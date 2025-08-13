@@ -73,3 +73,63 @@ O servidor será iniciado e ficará aguardando conexões via stdio para comunica
 - `npm run seed`: Cria a tabela e popula com dados de exemplo
 
 ## 📁 Estrutura do Projeto
+
+├── src/
+│   ├── server.ts      # Servidor MCP principal
+│   └── helpers.ts     # Funções de acesso ao banco de dados
+├── build/             # Arquivos compilados
+├── seed.ts           # Script para popular o banco
+├── mcp.sqlite        # Banco de dados SQLite
+└── package.json      # Configurações do projeto
+
+
+## 🔧 Tecnologias Utilizadas
+
+- **TypeScript**: Linguagem principal
+- **SQLite3**: Banco de dados
+- **Model Context Protocol SDK**: Framework para servidor MCP
+- **Faker.js**: Geração de dados fictícios
+- **Zod**: Validação de esquemas
+
+## 📖 Ferramentas MCP Disponíveis
+
+Após executar o servidor, ele estará disponível para receber comandos MCP através de stdio. As ferramentas disponíveis são:
+
+### 1. listar-clientes
+- **Descrição**: Lista todos os clientes cadastrados no sistema
+- **Parâmetros**: Nenhum
+- **Retorno**: Lista formatada com todos os clientes e suas informações
+
+### 2. quantidade-clientes
+- **Descrição**: Retorna o total de clientes cadastrados
+- **Parâmetros**: Nenhum
+- **Retorno**: Número total de clientes no banco
+
+### 3. buscar-clientes-por-origem
+- **Descrição**: Busca clientes ativos por origem específica
+- **Parâmetros**: 
+  - `origem` (string): facebook, instagram ou tiktok
+- **Retorno**: Lista de clientes ativos da origem especificada
+
+### 4. quantidade-clientes-ativos-por-origem
+- **Descrição**: Conta clientes ativos por origem específica
+- **Parâmetros**: 
+  - `origem` (string): facebook, instagram ou tiktok
+- **Retorno**: Número de clientes ativos da origem especificada
+
+## 💡 Exemplo de Uso
+
+O servidor formatará as respostas de forma legível, incluindo emojis e formatação markdown para melhor visualização dos dados. Por exemplo:
+
+
+## 🔄 Desenvolvimento
+
+Para desenvolvimento, você pode usar:
+
+```bash
+# Executar em modo de desenvolvimento
+npx ts-node src/server.ts
+
+# Recriar dados de teste
+npm run seed
+```
