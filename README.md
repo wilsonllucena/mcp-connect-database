@@ -74,6 +74,8 @@ O servidor será iniciado e ficará aguardando conexões via stdio para comunica
 
 ## 📁 Estrutura do Projeto
 
+```
+mcp-connect-database/
 ├── src/
 │   ├── server.ts      # Servidor MCP principal
 │   └── helpers.ts     # Funções de acesso ao banco de dados
@@ -81,6 +83,10 @@ O servidor será iniciado e ficará aguardando conexões via stdio para comunica
 ├── seed.ts           # Script para popular o banco
 ├── mcp.sqlite        # Banco de dados SQLite
 └── package.json      # Configurações do projeto
+├── tsconfig.json     # Configuração do TypeScript
+├── .gitignore        # Arquivos a serem ignorados pelo Git
+├── README.md         # Documentação do projeto
+```
 
 
 ## 🔧 Tecnologias Utilizadas
