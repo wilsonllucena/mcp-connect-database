@@ -1,0 +1,31 @@
+{
+  "name": "mcp-database",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "watcher": "build/server.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/server.js",
+    "start": "node build/server.js",
+    "seed": "npx ts-node seed.ts"
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.2",
+    "sqlite3": "^5.1.7",
+    "zod": "^3.25.76",
+    "@faker-js/faker": "^8.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2",
+    "ts-node": "^10.9.2"
+  }
+}
