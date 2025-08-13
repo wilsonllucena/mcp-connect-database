@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { buscarClientesPorOrigem, listarClientes, quantidadeClientes, quantidadeClientesAtivosPorOrigem } from "./helpers";
+import { buscarClientesPorOrigem, listarClientes, obterMetricasClientes, quantidadeClientes, quantidadeClientesAtivosPorOrigem } from "./helpers";
 import z from "zod";
 
 
@@ -26,6 +26,10 @@ const server = new McpServer({
       "quantidade-clientes-ativos-por-origem": {
         name: "quantidade-clientes-ativos-por-origem",
         description: "Retorna a quantidade total de clientes ativos cadastrados por origem",
+      },
+      "obter-metricas": {
+        name: "obter-metricas-clientes",
+        description: "Obtém métricas de clientes",
       },
     },
   },
@@ -188,6 +192,34 @@ server.tool(
           {
             type: "text",
             text: `❌ Erro ao contar clientes ativos por origem: ${error instanceof Error ? error.message : 'Erro desconhecido'}`,
+          },
+        ],
+      };
+    }
+  },
+);
+
+server.tool(
+  "obter-metricas-clientes",
+  "Obtém métricas de clientes",
+  {},
+  async () => {
+    try {
+      const metrica = await obterMetricasClientes();
+      return {
+        content: [
+          {
+            type: "text",
+            text: `📊 Métricas de clientes: ${JSON.stringify(metrica)}`,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `❌ Erro ao obter métricas de clientes: ${error instanceof Error ? error.message : 'Erro desconhecido'}`,
           },
         ],
       };

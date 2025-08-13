@@ -111,11 +111,59 @@ function quantidadeClientesAtivosPorOrigem(origem: string): Promise<number> {
   });
 }
 
+interface MetricasClientes {
+  totalClientes: number;
+  clientesAtivos: number;
+  clientesPorOrigem: { origem: string; quantidade: number }[];
+  crescimentoMensal: { mes: string; quantidade: number }[];
+}
+
+function obterMetricasClientes(): Promise<MetricasClientes> {
+  return new Promise((resolve, reject) => {
+    const sqlTotal = `SELECT COUNT(*) as total FROM clientes`;
+    const sqlAtivos = `SELECT COUNT(*) as ativos FROM clientes WHERE ativo = 1`;
+    const sqlPorOrigem = `
+      SELECT origem, COUNT(*) as quantidade 
+      FROM clientes 
+      WHERE origem IS NOT NULL 
+      GROUP BY origem`;
+    const sqlCrescimento = `
+      SELECT 
+        strftime('%Y-%m', data_criacao) as mes,
+        COUNT(*) as quantidade
+      FROM clientes
+      WHERE data_criacao IS NOT NULL
+      GROUP BY strftime('%Y-%m', data_criacao)
+      ORDER BY mes DESC
+      LIMIT 12`;
+
+    Promise.all([
+      new Promise((res, rej) => _db.get(sqlTotal, [], (err, row: { total: number }) => err ? rej(err) : res(row.total))),
+      new Promise((res, rej) => _db.get(sqlAtivos, [], (err, row: { ativos: number }) => err ? rej(err) : res(row.ativos))),
+      new Promise((res, rej) => _db.all(sqlPorOrigem, [], (err, rows) => err ? rej(err) : res(rows))),
+      new Promise((res, rej) => _db.all(sqlCrescimento, [], (err, rows) => err ? rej(err) : res(rows)))
+    ])
+    .then(([total, ativos, porOrigem, crescimento]) => {
+      resolve({
+        totalClientes: total as number,
+        clientesAtivos: ativos as number, 
+        clientesPorOrigem: porOrigem as { origem: string; quantidade: number }[],
+        crescimentoMensal: crescimento as { mes: string; quantidade: number }[]
+      });
+    })
+    .catch(err => {
+      console.error('Erro ao obter métricas:', err.message);
+      reject(err);
+    });
+  });
+}
+
 export {
   listarClientes,
   buscarClientePorId,
   quantidadeClientes,
   buscarClientesPorOrigem,
   quantidadeClientesAtivosPorOrigem,
+  obterMetricasClientes,
   Cliente
 }
