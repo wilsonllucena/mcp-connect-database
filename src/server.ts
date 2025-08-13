@@ -4,7 +4,6 @@ import { buscarClientesPorOrigem, listarClientes, obterMetricasClientes, quantid
 import z from "zod";
 
 
-// Criando instância do servidor
 const server = new McpServer({
   name: "mcp-connect-database",
   version: "1.0.0",
@@ -35,13 +34,10 @@ const server = new McpServer({
   },
 });
 
-// Adicionar a ferramenta para listar usuários
 server.tool(
   "listar-clientes",
   "Lista todos os clientes cadastrados no sistema",
-  {
-    // Sem parâmetros necessários
-  },
+  {},
   async () => {
     try {
       const clientes = await listarClientes();

@@ -1,9 +1,9 @@
 import sqlite3 from 'sqlite3';
-const _db = new sqlite3.Database('./mcp.sqlite'); // Corrigido para usar mcp.sqlite
+const _db = new sqlite3.Database('./mcp.sqlite'); 
 
 type Cliente = {
   id: number;
-  nome: string;  // Corrigido de 'name' para 'nome'
+  nome: string;
   email: string;
   bairro?: string;
   cidade?: string;
@@ -11,8 +11,8 @@ type Cliente = {
   cep?: string;
   ativo: boolean;
   origem?: string;
-  data_criacao?: string; // Adicionado campo de data
-  data_atualizacao?: string; // Adicionado campo de data
+  data_criacao?: string;
+  data_atualizacao?: string;
 }
 
 const listaClientes = `
@@ -34,7 +34,6 @@ function listarClientes(): Promise<Cliente[]> {
   });
 }
 
-// Função adicional para buscar cliente por ID
 function buscarClientePorId(id: number): Promise<Cliente | null> {
   return new Promise((resolve, reject) => {
     const sql = `
